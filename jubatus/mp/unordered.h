@@ -19,43 +19,9 @@
 #ifndef MP_UNORDERED_H__
 #define MP_UNORDERED_H__
 
-#if   defined(MP_UNORDERED_MAP_BOOST)
-#include <boost/tr1/unordered_map.hpp>
-#include <boost/tr1/unordered_set.hpp>
-#include <boost/tr1/functional.hpp>
-namespace mp {
-	using std::tr1::unordered_map;
-	using std::tr1::unordered_set;
-	using std::tr1::unordered_multimap;
-	using std::tr1::unordered_multiset;
-	//using std::tr1::hash_range;
-	//using std::tr1::hash_combine;
-	template <typename T> struct hash : public std::tr1::hash<T> { };
-}
+#include <functional>
 
-#elif defined(MP_UNORDERED_MAP_BOOST_ORG)
-#include <boost/unordered_map.hpp>
-#include <boost/unordered_set.hpp>
-namespace mp {
-	using boost::unordered_map;
-	using boost::unordered_set;
-	using boost::unordered_multimap;
-	using boost::unordered_multiset;
-	template <typename T> struct hash : public boost::hash<T> { };
-}
-
-#elif defined(MP_UNORDERED_MAP_STANDARD)
-#include <unordered_map>
-#include <unordered_set>
-namespace mp {
-	using std::unordered_map;
-	using std::unordered_set;
-	using std::unordered_multimap;
-	using std::unordered_multiset;
-	template <typename T> struct hash : public std::hash<T> { };
-}
-
-#else
+#ifdef __GLIBCXX__
 #include <tr1/unordered_map>
 #include <tr1/unordered_set>
 #include <tr1/functional>
@@ -65,6 +31,16 @@ namespace mp {
 	using std::tr1::unordered_multimap;
 	using std::tr1::unordered_multiset;
 	template <typename T> struct hash : public std::tr1::hash<T> { };
+}
+#else
+#include <unordered_map>
+#include <unordered_set>
+namespace mp {
+	using std::unordered_map;
+	using std::unordered_set;
+	using std::unordered_multimap;
+	using std::unordered_multiset;
+	template <typename T> struct hash : public std::hash<T> { };
 }
 #endif
 
